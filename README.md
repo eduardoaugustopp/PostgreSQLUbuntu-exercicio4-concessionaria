@@ -3,6 +3,8 @@
 <h2>�� Sobre</h2>
 <p>Tabela criada para praticar o Curso de PostgreSQL: administração e otimização do banco</p>
 
+https://github.com/user-attachments/assets/b1b6890e-e221-41f4-949e-6e80d601e562
+
 <h2>��SQL com PostgreSQL / ALURA</h2>
 <p>
 -Aprender quais são os papéis de um DBA<br>
