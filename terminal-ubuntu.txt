@@ -1,0 +1,168 @@
+eduardo@eduardo-ubuntu:~$ psql -h localhost -p 5432 -U postgres -d postgres
+Password for user postgres: 
+psql (16.3 (Ubuntu 16.3-0ubuntu0.24.04.1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+Type "help" for help.
+
+postgres=# \c concessionaria
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off)
+You are now connected to database "concessionaria" as user "postgres".
+concessionaria=# CREATE TABLE fabricantes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    pais VARCHAR(50)
+);
+
+CREATE TABLE carros (
+    id SERIAL PRIMARY KEY,
+    modelo VARCHAR(100) NOT NULL,
+    ano INT NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    fabricante_id INT REFERENCES fabricantes(id)
+);
+
+CREATE TABLE vendas (
+    id SERIAL PRIMARY KEY,
+    carro_id INT REFERENCES carros(id),
+    data_venda DATE NOT NULL,
+    preco_venda DECIMAL(10, 2) NOT NULL,
+    nome_cliente VARCHAR(100)
+);
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+concessionaria=# INSERT INTO fabricantes (nome, pais) VALUES
+('Toyota', 'Japão'),
+('Ford', 'EUA'),
+('BMW', 'Alemanha'),
+('Honda', 'Japão'),
+('Chevrolet', 'EUA'),
+('Audi', 'Alemanha'),
+('Nissan', 'Japão'),
+('Hyundai', 'Coreia do Sul'),
+('Volkswagen', 'Alemanha'),
+('Kia', 'Coreia do Sul'),
+('Mazda', 'Japão'),
+('Subaru', 'Japão'),
+('Mercedes-Benz', 'Alemanha'),
+('Porsche', 'Alemanha'),
+('Jaguar', 'Reino Unido'),
+('Land Rover', 'Reino Unido'),
+('Ferrari', 'Itália'),
+('Lamborghini', 'Itália'),
+('Fiat', 'Itália'),
+('Alfa Romeo', 'Itália');
+INSERT 0 20
+concessionaria=# INSERT INTO carros (modelo, ano, preco, fabricante_id) VALUES
+('Camry', 2023, 25000.00, 1),
+('Mustang', 2024, 35000.00, 2),
+('X5', 2023, 60000.00, 3),
+('Civic', 2023, 22000.00, 4),
+('F-150', 2024, 40000.00, 5),
+('Q7', 2023, 70000.00, 6),
+('Altima', 2023, 24000.00, 7),
+('Elantra', 2024, 27000.00, 8),
+('Tiguan', 2023, 33000.00, 9),
+('Soul', 2023, 20000.00, 10),
+('MX-5', 2023, 29000.00, 11),
+('Outback', 2024, 32000.00, 12),
+('GLC', 2023, 55000.00, 13),
+('911', 2023, 100000.00, 14),
+('XE', 2023, 45000.00, 15),
+('Discovery', 2024, 60000.00, 16),
+('Portofino', 2024, 250000.00, 17),
+('Huracán', 2024, 300000.00, 18),
+('500', 2023, 18000.00, 19),
+('Giulia', 2023, 40000.00, 20);
+INSERT 0 20
+concessionaria=# 
+INSERT INTO vendas (carro_id, data_venda, preco_venda, nome_cliente) VALUES
+(1, '2024-01-15', 24500.00, 'Alice Johnson'),
+(2, '2024-02-20', 34000.00, 'Bob Smith'),
+(3, '2024-03-25', 58000.00, 'Charlie Davis'),
+(4, '2024-04-10', 21500.00, 'Diana Prince'),
+(5, '2024-05-05', 39000.00, 'Evan Carter'),
+(6, '2024-06-30', 68000.00, 'Fiona Green'),
+(7, '2024-07-15', 24500.00, 'George Brown'),
+(8, '2024-08-20', 27500.00, 'Hannah White'),
+(9, '2024-09-10', 34000.00, 'Ian Black'),
+(10, '2024-10-05', 21000.00, 'Julia Clark'),
+(11, '2024-11-15', 29500.00, 'Kevin Adams'),
+(12, '2024-12-20', 32500.00, 'Laura Martinez'),
+(13, '2024-01-20', 56000.00, 'Michael King'),
+(14, '2024-02-15', 98000.00, 'Nina Scott'),
+(15, '2024-03-10', 46000.00, 'Oscar Lewis'),
+(16, '2024-04-25', 62000.00, 'Pamela Hall'),
+(17, '2024-05-30', 240000.00, 'Quincy Allen'),
+(18, '2024-06-05', 290000.00, 'Rachel Young'),
+(19, '2024-07-15', 19000.00, 'Sam Nelson'),
+(20, '2024-08-25', 41000.00, 'Tina Harris');
+INSERT 0 20
+concessionaria=# \l
+concessionaria=# \dt
+            List of relations
+ Schema |    Name     | Type  |  Owner   
+--------+-------------+-------+----------
+ public | carros      | table | postgres
+ public | fabricantes | table | postgres
+ public | vendas      | table | postgres
+(3 rows)
+
+concessionaria=# SELECT c.id AS carro_id, c.modelo, c.ano, c.preco, f.nome AS fabricante, f.pais
+FROM carros c
+JOIN fabricantes f ON c.fabricante_id = f.id;
+ carro_id |  modelo   | ano  |   preco   |  fabricante   |     pais      
+----------+-----------+------+-----------+---------------+---------------
+        1 | Camry     | 2023 |  25000.00 | Toyota        | Japão
+        2 | Mustang   | 2024 |  35000.00 | Ford          | EUA
+        3 | X5        | 2023 |  60000.00 | BMW           | Alemanha
+        4 | Civic     | 2023 |  22000.00 | Honda         | Japão
+        5 | F-150     | 2024 |  40000.00 | Chevrolet     | EUA
+        6 | Q7        | 2023 |  70000.00 | Audi          | Alemanha
+        7 | Altima    | 2023 |  24000.00 | Nissan        | Japão
+        8 | Elantra   | 2024 |  27000.00 | Hyundai       | Coreia do Sul
+        9 | Tiguan    | 2023 |  33000.00 | Volkswagen    | Alemanha
+       10 | Soul      | 2023 |  20000.00 | Kia           | Coreia do Sul
+       11 | MX-5      | 2023 |  29000.00 | Mazda         | Japão
+       12 | Outback   | 2024 |  32000.00 | Subaru        | Japão
+       13 | GLC       | 2023 |  55000.00 | Mercedes-Benz | Alemanha
+       14 | 911       | 2023 | 100000.00 | Porsche       | Alemanha
+       15 | XE        | 2023 |  45000.00 | Jaguar        | Reino Unido
+       16 | Discovery | 2024 |  60000.00 | Land Rover    | Reino Unido
+       17 | Portofino | 2024 | 250000.00 | Ferrari       | Itália
+       18 | Huracán   | 2024 | 300000.00 | Lamborghini   | Itália
+       19 | 500       | 2023 |  18000.00 | Fiat          | Itália
+       20 | Giulia    | 2023 |  40000.00 | Alfa Romeo    | Itália
+(20 rows)
+
+concessionaria=# SELECT v.id AS venda_id, c.modelo, c.ano, c.preco AS preco_carro, v.data_venda, v.preco_venda, v.nome_cliente, f.nome AS fabricante
+FROM vendas v
+JOIN carros c ON v.carro_id = c.id
+JOIN fabricantes f ON c.fabricante_id = f.id;
+ venda_id |  modelo   | ano  | preco_carro | data_venda | preco_venda |  nome_cliente  |  fabricante   
+----------+-----------+------+-------------+------------+-------------+----------------+---------------
+        1 | Camry     | 2023 |    25000.00 | 2024-01-15 |    24500.00 | Alice Johnson  | Toyota
+        2 | Mustang   | 2024 |    35000.00 | 2024-02-20 |    34000.00 | Bob Smith      | Ford
+        3 | X5        | 2023 |    60000.00 | 2024-03-25 |    58000.00 | Charlie Davis  | BMW
+        4 | Civic     | 2023 |    22000.00 | 2024-04-10 |    21500.00 | Diana Prince   | Honda
+        5 | F-150     | 2024 |    40000.00 | 2024-05-05 |    39000.00 | Evan Carter    | Chevrolet
+        6 | Q7        | 2023 |    70000.00 | 2024-06-30 |    68000.00 | Fiona Green    | Audi
+        7 | Altima    | 2023 |    24000.00 | 2024-07-15 |    24500.00 | George Brown   | Nissan
+        8 | Elantra   | 2024 |    27000.00 | 2024-08-20 |    27500.00 | Hannah White   | Hyundai
+        9 | Tiguan    | 2023 |    33000.00 | 2024-09-10 |    34000.00 | Ian Black      | Volkswagen
+       10 | Soul      | 2023 |    20000.00 | 2024-10-05 |    21000.00 | Julia Clark    | Kia
+       11 | MX-5      | 2023 |    29000.00 | 2024-11-15 |    29500.00 | Kevin Adams    | Mazda
+       12 | Outback   | 2024 |    32000.00 | 2024-12-20 |    32500.00 | Laura Martinez | Subaru
+       13 | GLC       | 2023 |    55000.00 | 2024-01-20 |    56000.00 | Michael King   | Mercedes-Benz
+       14 | 911       | 2023 |   100000.00 | 2024-02-15 |    98000.00 | Nina Scott     | Porsche
+       15 | XE        | 2023 |    45000.00 | 2024-03-10 |    46000.00 | Oscar Lewis    | Jaguar
+       16 | Discovery | 2024 |    60000.00 | 2024-04-25 |    62000.00 | Pamela Hall    | Land Rover
+       17 | Portofino | 2024 |   250000.00 | 2024-05-30 |   240000.00 | Quincy Allen   | Ferrari
+       18 | Huracán   | 2024 |   300000.00 | 2024-06-05 |   290000.00 | Rachel Young   | Lamborghini
+       19 | 500       | 2023 |    18000.00 | 2024-07-15 |    19000.00 | Sam Nelson     | Fiat
+       20 | Giulia    | 2023 |    40000.00 | 2024-08-25 |    41000.00 | Tina Harris    | Alfa Romeo
+(20 rows)
+
+concessionaria=# \q
+eduardo@eduardo-ubuntu:~$ 
+
